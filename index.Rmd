@@ -1,0 +1,91 @@
+---
+title: "Practical Machine Learning Course Project"
+author: "Irem Celen"
+date: "August 23, 2017"
+output: html_document
+---
+
+### <span style="color:blue">Overview</span>
+#### <span style="color:green">Background </span>
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### <span style="color:blue">Read Training and Testing Data</span>
+
+Loading the necessary libraries
+```{r library, message=FALSE, warning=FALSE}
+library(RCurl)
+library(caret)
+```
+
+Loading the Data
+```{r train}
+get_training <- getURL('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv', ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
+get_testing <- getURL('https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv', 
+                  ssl.verifyhost=FALSE, ssl.verifypeer=FALSE)
+training <- read.csv(textConnection(get_training), header=TRUE, na.strings = c("", "NA"))
+testing <- read.csv(textConnection(get_testing), header=TRUE, na.strings = c("", "NA"))
+```
+
+### <span style="color:blue">Data Cleaning</span>
+
+First, the data is examined to see the missing values:
+
+```{r missing}
+unique(colSums(is.na(training)))
+```
+
+Apperantly, the majority of the data is missing for all the columns with missing values. Therefore, those columns are excluded from the analysis.
+
+```{r data}
+dim(training)
+training_cleaned <- training[,colSums(is.na(training)) == 0] 
+dim(training_cleaned)
+dim(testing)
+testing_cleaned <- testing[,colSums(is.na(testing)) == 0] 
+dim(testing_cleaned)
+```
+The remaining data sets consist of 60 variables which is still a high number. 
+Zero covariates will be removed from the analysis, and user_name and cvtd_timestamp variables will be discarded.
+
+```{r PCA}
+nzv <- nearZeroVar(training_cleaned, saveMetrics = TRUE)
+training_cleaned2 <- training_cleaned[,-nzv$nzv]
+training_final <- training_cleaned2[,-c(1,4)]
+
+#Remove the same variables in the testing data
+nzvt <- nearZeroVar(testing_cleaned, saveMetrics = TRUE)
+testing_cleaned2 <- testing_cleaned[,-nzvt$nzv]
+testing_final <- testing_cleaned2[,-c(1,4,59)] #problem_id doesn't exist in the training data
+
+#A new set of training and validation sets should be created from the existing training data.
+#75% of the data will be assigned to the new training set and the rest will be the testing set.
+
+set.seed(19) #to assure reproducability
+inTrain <- createDataPartition(training_final$classe, p = 0.75, list = FALSE)
+train_new <- training_final[inTrain,]
+validation <- training_final[-inTrain,] 
+
+```
+
+### <span style="color:blue"> Data Modelling </span>
+
+For this exercise, three different models will be attempted on the data . Then, predictors will be combined to see if a higher accuracy can be achieved.
+
+#### <span style="color:green"> 1. Random Forest </span>
+
+```{r rf}
+model_rf <- train(classe~., method="rf", data=train_new)
+```
+#### <span style="color:green"> 1. Linear Discriminant Analysis </span>
+
+model_lda <- train(classe~., method="lda", data=train_new, trControl = trainControl(method = "cv"))
+
+#### <span style="color:green"> 1. Boosted Trees </span>
+
+model_gbm <- train(classe~., method="gbm", data=train_new, trControl = trainControl(method = "cv"))
+
