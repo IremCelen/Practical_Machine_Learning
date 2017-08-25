@@ -25,7 +25,9 @@ https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
 The data for this project come from this source: http://groupware.les.inf.puc-rio.br/har. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment. 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
 ```
 
 ### <span style="color:blue">Read Training and Testing Data</span>
@@ -34,6 +36,7 @@ Loading the necessary libraries
 ```{r library, message=FALSE, warning=FALSE}
 library(RCurl)
 library(caret)
+library(doParallel)
 ```
 
 Loading the Data
@@ -91,17 +94,27 @@ validation <- training_final[-inTrain,]
 For this exercise, three different models will be attempted on the data. If needed, predictors will be combined to see if a higher accuracy can be achieved.
 
 #### <span style="color:green"> 1. Random Forest </span>
-
+Because its high accuracy, first random forest will be performed with four-fold cross-validation.
 ```{r rf, message=FALSE}
-model_rf <- train(classe~., method="rf", data=train_new)
+cl <- makeCluster(4)
+registerDoParallel(cl)
+model_rf <- train(classe~., method="rf", data=train_new, trControl=trainControl(method = "cv", number=4))
+stopCluster(cl)
+registerDoSEQ()
 ```
 #### <span style="color:green"> 2. Linear Discriminant Analysis </span>
+Since the discrimination of different groups can be achieved with high accuracy by using linear discriminant analysis, this model will also be tested with four-fold cross-validation.
 ```{r lda, message=FALSE}
-model_lda <- train(classe~., method="lda", data=train_new)
+model_lda <- train(classe~., method="lda", data=train_new, trControl=trainControl(method = "cv", number=4))
 ```
 #### <span style="color:green"> 3. Boosted Trees </span>
+As boosted trees can give a better accuracy than random trees by adding new trees that compliments the already built ones, it will also be used with four-fold cross-validation.
 ```{r gbm, message=FALSE, warning=FALSE}
+cl <- makeCluster(4)
+registerDoParallel(cl) #to parallelize the process
 model_gbm <- train(classe~., method="gbm", data=train_new)
+stopCluster(cl)
+registerDoSEQ()
 ```
 
 ### <span style="color:blue"> Confusion Matrix </span>
