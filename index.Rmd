@@ -8,7 +8,19 @@ output: html_document
 ### <span style="color:blue">Overview</span>
 #### <span style="color:green">Background </span>
 
-Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+#### <span style="color:green">Data</span>
+
+The training data for this project are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+The test data are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+
+The data for this project come from this source: http://groupware.les.inf.puc-rio.br/har. If you use the document you create for this class for any purpose please cite them as they have been very generous in allowing their data to be used for this kind of assignment. 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -72,9 +84,9 @@ validation <- training_final[-inTrain,]
 
 ```
 
-### <span style="color:blue"> Data Modelling </span>
+### <span style="color:blue"> Data Modeling </span>
 
-For this exercise, three different models will be attempted on the data . Then, predictors will be combined to see if a higher accuracy can be achieved.
+For this exercise, three different models will be attempted on the data. If needed, predictors will be combined to see if a higher accuracy can be achieved.
 
 #### <span style="color:green"> 1. Random Forest </span>
 
@@ -82,10 +94,40 @@ For this exercise, three different models will be attempted on the data . Then, 
 model_rf <- train(classe~., method="rf", data=train_new)
 ```
 #### <span style="color:green"> 1. Linear Discriminant Analysis </span>
-
-model_lda <- train(classe~., method="lda", data=train_new, trControl = trainControl(method = "cv"))
-
+```{r lda}
+model_lda <- train(classe~., method="lda", data=train_new)
+```
 #### <span style="color:green"> 1. Boosted Trees </span>
+```{r gbm, echo=FALSE, message=FALSE}
+model_gbm <- train(classe~., method="gbm", data=train_new)
+```
 
-model_gbm <- train(classe~., method="gbm", data=train_new, trControl = trainControl(method = "cv"))
+#### <span style="color:green"> Out of Sample Error Estimate </span>
+```{r out}
+model_rf$finalModel
+model_lda$finalModel
+model_gbm$finalModel
+```
+### <span style="color:blue"> Confusion Matrix </span>
+```{r pred}
+pred_rf <- predict(model_rf, validation)
+pred_lda <- predict(model_lda, validation)
+pred_gbm <- predict(model_gbm, validation)
 
+confusionMatrix(validation$classe, pred_rf)$overall['Accuracy']
+#Accuracy for Random Forest:
+confusionMatrix(validation$classe, pred_lda)$overall['Accuracy']
+#Accuracy for LDA:
+confusionMatrix(validation$classe, pred_gbm)$overall['Accuracy']
+#Accuracy for GBM:
+
+```
+
+Based on the results, random forest and boosted trees give a high accuracy. Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.
+
+###<span style="color:blue"> Prediction Quiz Results </span>
+
+```{r quiz}
+predict_final <- predict(model_rf, testing_final)
+predict_final
+```
