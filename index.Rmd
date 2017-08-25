@@ -2,7 +2,9 @@
 title: "Practical Machine Learning Course Project"
 author: "Irem Celen"
 date: "August 23, 2017"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ### <span style="color:blue">Overview</span>
@@ -102,28 +104,28 @@ model_lda <- train(classe~., method="lda", data=train_new)
 model_gbm <- train(classe~., method="gbm", data=train_new)
 ```
 
-#### <span style="color:green"> Out of Sample Error Estimate </span>
-```{r out}
-model_rf$finalModel
-model_lda$finalModel
-model_gbm$finalModel
-```
 ### <span style="color:blue"> Confusion Matrix </span>
 ```{r pred}
 pred_rf <- predict(model_rf, validation)
 pred_lda <- predict(model_lda, validation)
 pred_gbm <- predict(model_gbm, validation)
 
-confusionMatrix(validation$classe, pred_rf)$overall['Accuracy']
 #Accuracy for Random Forest:
+confusionMatrix(validation$classe, pred_rf)$overall['Accuracy']
+#Accuracy for Linear Discriminant Analysis (LDA):
 confusionMatrix(validation$classe, pred_lda)$overall['Accuracy']
-#Accuracy for LDA:
+#Accuracy for Boosted Trees (GBM):
 confusionMatrix(validation$classe, pred_gbm)$overall['Accuracy']
-#Accuracy for GBM:
 
 ```
 
-Based on the results, random forest and boosted trees give a high accuracy. Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.
+#### <span style="color:green"> Out of Sample Error Estimate </span>
+The estimated out of sample error (1-Accuracy) for the models are as following: 
+LDA: 28.8%
+GBM: 0.5%
+Random Forest: 0.1%
+
+Based on the results, random forest and boosted trees give a high accuracy and low out of sample error estimates. The random forest model showed the best accuracy rate 99.9% and so the lowest Out Of Sample error.  Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.
 
 ###<span style="color:blue"> Prediction Quiz Results </span>
 

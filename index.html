@@ -1727,236 +1727,6 @@ validation &lt;- training_final[-inTrain,] </code></pre>
 ##    140        0.0517             nan     0.1000    0.0011
 ##    150        0.0439             nan     0.1000    0.0007</code></pre>
 </div>
-<div id="out-of-sample-error-estimate" class="section level4">
-<h4><span style="color:green"> Out of Sample Error Estimate </span></h4>
-<pre class="r"><code>model_rf$finalModel</code></pre>
-<pre><code>## 
-## Call:
-##  randomForest(x = x, y = y, mtry = param$mtry) 
-##                Type of random forest: classification
-##                      Number of trees: 500
-## No. of variables tried at each split: 29
-## 
-##         OOB estimate of  error rate: 0.08%
-## Confusion matrix:
-##      A    B    C    D    E  class.error
-## A 4185    0    0    0    0 0.0000000000
-## B    2 2844    2    0    0 0.0014044944
-## C    0    3 2564    0    0 0.0011686794
-## D    0    0    2 2409    1 0.0012437811
-## E    0    0    0    2 2704 0.0007390983</code></pre>
-<pre class="r"><code>model_lda$finalModel</code></pre>
-<pre><code>## Call:
-## lda(x, grouping = y)
-## 
-## Prior probabilities of groups:
-##         A         B         C         D         E 
-## 0.2843457 0.1935046 0.1744123 0.1638810 0.1838565 
-## 
-## Group means:
-##   raw_timestamp_part_1 raw_timestamp_part_2 new_windowyes num_window
-## A           1322812651             496199.5    0.01935484   382.9099
-## B           1322838538             492740.6    0.02036517   499.8676
-## C           1322829033             502295.5    0.02025711   485.0210
-## D           1322817916             502329.1    0.02238806   434.9415
-## E           1322837880             509731.6    0.02069475   373.1208
-##   roll_belt  pitch_belt   yaw_belt total_accel_belt gyros_belt_x
-## A  59.32821  0.58235603 -12.675047         10.68602 -0.005218638
-## B  64.36873 -0.06969452 -13.524354         11.02949 -0.005424860
-## C  65.06377 -1.25881184  -6.555960         11.20452 -0.015138294
-## D  60.50527  1.65627695 -17.807011         11.19942 -0.013047264
-## E  75.25811  0.25907613  -3.821212         12.77753  0.012538803
-##   gyros_belt_y gyros_belt_z accel_belt_x accel_belt_y accel_belt_z
-## A   0.04039427   -0.1213333    -6.436559     28.99116    -62.67240
-## B   0.04203652   -0.1336025    -4.830758     31.53230    -72.31952
-## C   0.03976626   -0.1351110    -3.824309     31.18115    -71.47682
-## D   0.03699834   -0.1311650    -8.074627     30.22347    -68.45315
-## E   0.03660015   -0.1348522    -3.966371     29.23208    -92.81523
-##   magnet_belt_x magnet_belt_y magnet_belt_z  roll_arm  pitch_arm
-## A      57.62294      602.1897     -338.3016 -0.326098   3.051039
-## B      49.01369      599.3020     -336.9695 32.891485  -6.388926
-## C      57.77016      599.7320     -337.5937 25.236743  -1.676989
-## D      49.25580      594.5468     -340.3184 22.448470 -10.628109
-## E      64.29786      568.0488     -378.1009 20.608777 -12.447761
-##      yaw_arm total_accel_arm gyros_arm_x gyros_arm_y gyros_arm_z
-## A -11.389462        27.47240  0.03911589  -0.2274265   0.2639904
-## B   9.709579        26.56636  0.01248596  -0.2775035   0.2630126
-## C   4.596954        24.06700  0.09559797  -0.2606038   0.2759096
-## D   5.193292        23.20771  0.04081260  -0.2566252   0.2715713
-## E  -2.554472        24.66149  0.05173319  -0.2888322   0.2862639
-##   accel_arm_x accel_arm_y accel_arm_z magnet_arm_x magnet_arm_y
-## A  -132.32521    47.15651   -76.70585     -21.5914    236.17897
-## B   -42.97788    26.33603   -96.02282     234.4206    129.48560
-## C   -76.04986    40.63654   -52.03155     162.0269    189.04831
-## D    15.68574    25.59204   -46.77156     400.9909     96.66915
-## E   -18.42092    14.60237   -76.12786     320.4342     83.41611
-##   magnet_arm_z roll_dumbbell pitch_dumbbell yaw_dumbbell
-## A     408.4538      21.23475     -19.047767   1.44876892
-## B     196.9958      36.47781       3.438184  14.72598266
-## C     364.5489     -12.86519     -24.820203 -15.73779772
-## D     299.4001      50.23398      -2.919414   0.08420781
-## E     216.2964      26.56102      -6.350905   5.92049083
-##   total_accel_dumbbell gyros_dumbbell_x gyros_dumbbell_y gyros_dumbbell_z
-## A             14.64205        0.1189367       0.03601434      -0.07701314
-## B             14.45330        0.1607654       0.01711025      -0.13963132
-## C             12.84534        0.1921465       0.05620958      -0.15631087
-## D             11.53400        0.2063184       0.01287313      -0.13557214
-## E             14.33518        0.1318441       0.11985588      -0.14027347
-##   accel_dumbbell_x accel_dumbbell_y accel_dumbbell_z magnet_dumbbell_x
-## A      -50.7479092         52.43417        -56.64827         -387.2958
-## B       -0.1769663         69.32865        -15.57338         -248.4203
-## C      -39.8843007         30.34749        -52.13011         -370.9100
-## D      -23.8009950         54.38599        -35.57255         -319.7931
-## E      -16.8691796         54.82742        -22.91390         -290.1619
-##   magnet_dumbbell_y magnet_dumbbell_z roll_forearm pitch_forearm
-## A          218.3035          10.96980     26.00550     -7.086886
-## B          268.3381          50.39221     33.02681     14.241373
-## C          156.8414          63.01987     57.70300     12.159723
-## D          220.0726          58.50498     15.88121     27.846140
-## E          238.3259          72.28160     39.32942     16.702147
-##   yaw_forearm total_accel_forearm gyros_forearm_x gyros_forearm_y
-## A   25.440389            32.07216       0.1681673      0.15873118
-## B   13.237082            35.34831       0.1419031      0.13869031
-## C   38.761858            34.93066       0.2121192      0.07079081
-## D    5.868333            36.09950       0.1193035     -0.02004561
-## E   10.874612            36.72542       0.1331338      0.09962676
-##   gyros_forearm_z accel_forearm_x accel_forearm_y accel_forearm_z
-## A       0.1781864       0.3154122        169.1235       -58.08674
-## B       0.1992837     -73.7752809        136.9308       -45.84445
-## C       0.1514180     -49.3969614        210.3635       -60.42462
-## D       0.1127695    -153.0265340        154.9540       -47.57919
-## E       0.1614375     -74.5679970        145.5957       -57.71951
-##   magnet_forearm_x magnet_forearm_y magnet_forearm_z
-## A        -192.4430         473.6664         409.2069
-## B        -319.8185         281.1218         373.2886
-## C        -334.8730         496.5247         458.2372
-## D        -454.7272         321.4436         360.7255
-## E        -331.1811         278.1367         346.2299
-## 
-## Coefficients of linear discriminants:
-##                                LD1           LD2           LD3
-## raw_timestamp_part_1  4.151339e-06  6.933120e-07  1.471783e-07
-## raw_timestamp_part_2  3.791824e-08 -3.538673e-08 -3.996363e-08
-## new_windowyes         2.184192e-02  3.425590e-02 -4.100353e-02
-## num_window            4.815765e-04 -7.456912e-04  1.646385e-03
-## roll_belt             6.410816e-02  9.010685e-02  8.565050e-03
-## pitch_belt            5.107904e-02  1.763762e-02 -7.630491e-02
-## yaw_belt             -9.217519e-03  1.868629e-03 -1.048338e-02
-## total_accel_belt      2.112563e-03  7.790211e-03 -2.888357e-01
-## gyros_belt_x          5.452153e-01 -1.644884e-01  9.712915e-01
-## gyros_belt_y         -1.969745e+00 -2.571299e+00 -6.091332e-01
-## gyros_belt_z          6.275913e-01  4.883690e-01  4.582956e-01
-## accel_belt_x         -1.151500e-03  1.075939e-03  1.846845e-02
-## accel_belt_y         -2.223901e-02 -3.477638e-02  5.256430e-02
-## accel_belt_z          1.037769e-02  2.612878e-02 -7.818048e-03
-## magnet_belt_x        -8.849500e-03  4.520055e-03 -2.262250e-02
-## magnet_belt_y        -1.916934e-02 -5.549179e-03 -2.109759e-03
-## magnet_belt_z         5.366560e-03 -1.599936e-03  1.167168e-02
-## roll_arm              9.314305e-04  2.461291e-04  2.363050e-03
-## pitch_arm            -2.330734e-03  5.634389e-03  6.516438e-03
-## yaw_arm               1.117828e-03 -1.032578e-03  1.978554e-03
-## total_accel_arm       4.590907e-03 -2.201966e-02 -2.065881e-02
-## gyros_arm_x           1.261096e-01  2.126895e-02 -6.162061e-02
-## gyros_arm_y           1.075005e-01 -7.193925e-02 -1.022025e-01
-## gyros_arm_z          -9.343596e-02 -1.395676e-01  1.014421e-02
-## accel_arm_x          -2.686889e-03 -3.898951e-03 -8.727086e-03
-## accel_arm_y          -1.541484e-03  1.563287e-02  1.176872e-04
-## accel_arm_z           9.404163e-03 -2.072734e-03  1.443175e-03
-## magnet_arm_x          1.380016e-05 -6.474574e-04  2.236420e-03
-## magnet_arm_y         -1.506377e-03 -5.539341e-03  4.660544e-03
-## magnet_arm_z         -3.632001e-03 -1.996120e-03 -5.455569e-03
-## roll_dumbbell         1.864391e-03 -3.688692e-03 -2.624730e-03
-## pitch_dumbbell       -6.025694e-03 -3.456890e-03 -4.346363e-03
-## yaw_dumbbell         -7.854058e-03  7.008340e-03 -3.107412e-03
-## total_accel_dumbbell  8.168698e-02  6.566857e-02  1.657427e-03
-## gyros_dumbbell_x      3.539085e-01 -4.682911e-01  8.949620e-02
-## gyros_dumbbell_y      2.834915e-01 -2.725820e-01 -3.030194e-02
-## gyros_dumbbell_z      1.513660e-01 -2.890626e-01  7.275117e-02
-## accel_dumbbell_x      1.372894e-02  8.500946e-03  9.584904e-04
-## accel_dumbbell_y      4.816500e-03  2.460902e-03  2.302228e-03
-## accel_dumbbell_z      4.537132e-04  1.796636e-03  1.672993e-03
-## magnet_dumbbell_x    -5.010946e-03 -4.097888e-04  3.673672e-03
-## magnet_dumbbell_y    -1.302219e-03  2.761621e-03 -7.585945e-04
-## magnet_dumbbell_z     1.482138e-02 -9.833091e-03 -1.674250e-03
-## roll_forearm          1.706092e-03  1.384957e-03  2.222892e-04
-## pitch_forearm         1.778140e-02 -1.324621e-02  5.005665e-03
-## yaw_forearm          -1.122420e-04  7.549122e-04  7.031908e-04
-## total_accel_forearm   3.705967e-02  7.304367e-03 -6.422031e-03
-## gyros_forearm_x      -9.516900e-02 -8.735517e-02  2.315882e-01
-## gyros_forearm_y      -2.673511e-02 -3.286431e-02  9.568076e-03
-## gyros_forearm_z       6.733921e-02  1.057835e-01 -2.077975e-03
-## accel_forearm_x       3.743715e-03  1.067909e-02  4.049185e-04
-## accel_forearm_y       2.490139e-04 -1.033104e-03 -1.141256e-03
-## accel_forearm_z      -3.366609e-03  3.437619e-03  4.175772e-03
-## magnet_forearm_x     -1.662406e-03 -3.504218e-03  7.298068e-06
-## magnet_forearm_y     -7.922527e-04 -1.478745e-03  4.614363e-04
-## magnet_forearm_z     -3.844861e-04 -1.493811e-03 -2.787390e-04
-##                                LD4
-## raw_timestamp_part_1  3.849688e-06
-## raw_timestamp_part_2  4.055046e-08
-## new_windowyes        -4.286500e-02
-## num_window            1.087746e-04
-## roll_belt             7.406352e-02
-## pitch_belt            2.032062e-02
-## yaw_belt             -3.457538e-03
-## total_accel_belt     -1.434762e-01
-## gyros_belt_x          3.427109e-01
-## gyros_belt_y          1.019042e+00
-## gyros_belt_z         -6.430111e-01
-## accel_belt_x          1.951364e-03
-## accel_belt_y          9.576956e-03
-## accel_belt_z          2.014864e-02
-## magnet_belt_x        -1.475423e-03
-## magnet_belt_y        -6.499214e-04
-## magnet_belt_z         7.975471e-04
-## roll_arm              2.928475e-04
-## pitch_arm             2.412120e-03
-## yaw_arm              -1.598059e-03
-## total_accel_arm      -1.946210e-02
-## gyros_arm_x           4.603086e-02
-## gyros_arm_y           2.248418e-01
-## gyros_arm_z           1.567292e-01
-## accel_arm_x          -1.586973e-03
-## accel_arm_y           5.568050e-03
-## accel_arm_z          -8.226870e-03
-## magnet_arm_x          1.165749e-03
-## magnet_arm_y          3.647240e-04
-## magnet_arm_z          2.253367e-03
-## roll_dumbbell        -8.689930e-03
-## pitch_dumbbell       -4.188009e-03
-## yaw_dumbbell         -3.450086e-03
-## total_accel_dumbbell  7.831153e-03
-## gyros_dumbbell_x      8.144115e-02
-## gyros_dumbbell_y      2.451455e-01
-## gyros_dumbbell_z      6.511971e-02
-## accel_dumbbell_x      6.715594e-03
-## accel_dumbbell_y      1.654215e-03
-## accel_dumbbell_z     -2.457395e-04
-## magnet_dumbbell_x    -3.226599e-03
-## magnet_dumbbell_y    -2.541870e-03
-## magnet_dumbbell_z     1.069852e-02
-## roll_forearm          1.234814e-03
-## pitch_forearm         1.076520e-03
-## yaw_forearm           1.186235e-03
-## total_accel_forearm   6.994656e-03
-## gyros_forearm_x       1.012402e-01
-## gyros_forearm_y      -8.026636e-03
-## gyros_forearm_z      -2.397071e-02
-## accel_forearm_x       3.875217e-03
-## accel_forearm_y      -2.718174e-03
-## accel_forearm_z      -7.114431e-04
-## magnet_forearm_x     -9.740051e-04
-## magnet_forearm_y      5.176642e-04
-## magnet_forearm_z      1.051955e-03
-## 
-## Proportion of trace:
-##    LD1    LD2    LD3    LD4 
-## 0.4892 0.2369 0.1655 0.1084</code></pre>
-<pre class="r"><code>model_gbm$finalModel</code></pre>
-<pre><code>## A gradient boosted model with multinomial loss function.
-## 150 iterations were performed.
-## There were 56 predictors of which 39 had non-zero influence.</code></pre>
-</div>
 </div>
 <div id="confusion-matrix" class="section level3">
 <h3><span style="color:blue"> Confusion Matrix </span></h3>
@@ -1964,19 +1734,23 @@ validation &lt;- training_final[-inTrain,] </code></pre>
 pred_lda &lt;- predict(model_lda, validation)
 pred_gbm &lt;- predict(model_gbm, validation)
 
+#Accuracy for Random Forest:
 confusionMatrix(validation$classe, pred_rf)$overall['Accuracy']</code></pre>
 <pre><code>##  Accuracy 
 ## 0.9989804</code></pre>
-<pre class="r"><code>#Accuracy for Random Forest:
+<pre class="r"><code>#Accuracy for Linear Discriminant Analysis (LDA):
 confusionMatrix(validation$classe, pred_lda)$overall['Accuracy']</code></pre>
 <pre><code>##  Accuracy 
 ## 0.7120718</code></pre>
-<pre class="r"><code>#Accuracy for LDA:
+<pre class="r"><code>#Accuracy for Boosted Trees (GBM):
 confusionMatrix(validation$classe, pred_gbm)$overall['Accuracy']</code></pre>
 <pre><code>## Accuracy 
 ## 0.995106</code></pre>
-<pre class="r"><code>#Accuracy for GBM:</code></pre>
-<p>Based on the results, random forest and boosted trees give a high accuracy. Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.</p>
+<div id="out-of-sample-error-estimate" class="section level4">
+<h4><span style="color:green"> Out of Sample Error Estimate </span></h4>
+<p>The estimated out of sample error (1-Accuracy) for the models are as following: LDA: 28.8% GBM: 0.5% Random Forest: 0.1%</p>
+<p>Based on the results, random forest and boosted trees give a high accuracy and low out of sample error estimates. The random forest model showed the best accuracy rate 99.9% and so the lowest Out Of Sample error. Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.</p>
+</div>
 </div>
 <div id="prediction-quiz-results" class="section level3">
 <h3><span style="color:blue"> Prediction Quiz Results </span></h3>
