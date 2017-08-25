@@ -191,22 +191,14 @@ validation &lt;- training_final[-inTrain,] </code></pre>
 <div id="random-forest" class="section level4">
 <h4><span style="color:green"> 1. Random Forest </span></h4>
 <pre class="r"><code>model_rf &lt;- train(classe~., method=&quot;rf&quot;, data=train_new)</code></pre>
-<pre><code>## Loading required package: randomForest</code></pre>
-<pre><code>## randomForest 4.6-12</code></pre>
-<pre><code>## Type rfNews() to see new features/changes/bug fixes.</code></pre>
-<pre><code>## 
-## Attaching package: 'randomForest'</code></pre>
-<pre><code>## The following object is masked from 'package:ggplot2':
-## 
-##     margin</code></pre>
 </div>
 <div id="linear-discriminant-analysis" class="section level4">
 <h4><span style="color:green"> 2. Linear Discriminant Analysis </span></h4>
 <pre class="r"><code>model_lda &lt;- train(classe~., method=&quot;lda&quot;, data=train_new)</code></pre>
-<pre><code>## Loading required package: MASS</code></pre>
 </div>
 <div id="boosted-trees" class="section level4">
 <h4><span style="color:green"> 3. Boosted Trees </span></h4>
+<pre class="r"><code>model_gbm &lt;- train(classe~., method=&quot;gbm&quot;, data=train_new)</code></pre>
 <pre><code>## Iter   TrainDeviance   ValidDeviance   StepSize   Improve
 ##      1        1.6094             nan     0.1000    0.1258
 ##      2        1.5248             nan     0.1000    0.0857

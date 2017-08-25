@@ -122,39 +122,16 @@ For this exercise, three different models will be attempted on the data. If need
 ```r
 model_rf <- train(classe~., method="rf", data=train_new)
 ```
-
-```
-## Loading required package: randomForest
-```
-
-```
-## randomForest 4.6-12
-```
-
-```
-## Type rfNews() to see new features/changes/bug fixes.
-```
-
-```
-## 
-## Attaching package: 'randomForest'
-```
-
-```
-## The following object is masked from 'package:ggplot2':
-## 
-##     margin
-```
 #### <span style="color:green"> 2. Linear Discriminant Analysis </span>
 
 ```r
 model_lda <- train(classe~., method="lda", data=train_new)
 ```
-
-```
-## Loading required package: MASS
-```
 #### <span style="color:green"> 3. Boosted Trees </span>
+
+```r
+model_gbm <- train(classe~., method="gbm", data=train_new)
+```
 
 ```
 ## Iter   TrainDeviance   ValidDeviance   StepSize   Improve

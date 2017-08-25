@@ -92,15 +92,15 @@ For this exercise, three different models will be attempted on the data. If need
 
 #### <span style="color:green"> 1. Random Forest </span>
 
-```{r rf}
+```{r rf, message=FALSE}
 model_rf <- train(classe~., method="rf", data=train_new)
 ```
 #### <span style="color:green"> 2. Linear Discriminant Analysis </span>
-```{r lda}
+```{r lda, message=FALSE}
 model_lda <- train(classe~., method="lda", data=train_new)
 ```
 #### <span style="color:green"> 3. Boosted Trees </span>
-```{r gbm, echo=FALSE, message=FALSE}
+```{r gbm, message=FALSE, warning=FALSE}
 model_gbm <- train(classe~., method="gbm", data=train_new)
 ```
 
@@ -125,9 +125,9 @@ LDA: 28.8%
 GBM: 0.5%
 Random Forest: 0.1%
 
-Based on the results, random forest and boosted trees give a high accuracy and low out of sample error estimates. The random forest model showed the best accuracy rate 99.9% and so the lowest Out Of Sample error.  Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and this method will be used as the final model.
+Based on the results, random forest and boosted trees gave a high accuracy and low out of sample error estimates. The random forest model showed the best accuracy rate of 99.9% and so the lowest out of sample error. Since random forest has already given a very high accuracy, the models will not be combined for achieving a better accuracy, and random forest method will be used as the final model.
 
-###<span style="color:blue"> Prediction Quiz Results </span>
+### <span style="color:blue"> Prediction Quiz Results </span>
 
 ```{r quiz}
 predict_final <- predict(model_rf, testing_final)
