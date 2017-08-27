@@ -118,7 +118,7 @@ validation <- training_final[-inTrain,]
 For this exercise, three different models will be attempted on the data. If needed, predictors will be combined to see if a higher accuracy can be achieved.
 
 #### <span style="color:green"> 1. Random Forest </span>
-Because its high accuracy, first random forest will be performed with four-fold cross-validation.
+Because of its high accuracy, first, random forest will be performed with four-fold cross-validation.
 
 ```r
 cl <- makeCluster(4)
